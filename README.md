@@ -46,6 +46,33 @@
     # eksctl delete cluster -f eks-sample-cluster.yaml
     ```
 
+## コンフィグ認証
+
+> ~/.kube/config
+
+1. aws-iam-authenticator token
+
+    > SSOに対応してない(2021/03/08)
+
+    ```yaml
+    args:
+    - token
+    - -i
+    - sample
+    command: aws-iam-authenticator
+    ```
+
+2. aws eks get-token
+
+    ```yaml
+    args:
+    - "eks"
+    - "get-token"
+    - "--cluster-name"
+    - sample
+    command: aws
+    ```
+
 ## 参照
 
 1. [eksctl - The official CLI for Amazon EKS](https://github.com/weaveworks/eksctl)
