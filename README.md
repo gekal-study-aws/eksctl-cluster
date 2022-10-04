@@ -22,14 +22,14 @@
 | eksctl utils        | Various utils                                            |
 | eksctl version      | Output the version of eksctl                             |
 
-## サンプルコマンド
+## クラスタ作成
 
 1. コマンドライン
 
     ```bash
     eksctl create cluster \
         --name sample \
-        --version 1.19 \
+        --version 1.23 \
         --fargate \
         --nodegroup-name sample \
         --managed \
@@ -44,6 +44,20 @@
     ```bash
     eksctl create cluster -f eks-sample-cluster.yaml
     # eksctl delete cluster -f eks-sample-cluster.yaml
+    ```
+
+## クラスタ削除
+
+1. コマンドラインのパラメータ指定
+
+    ```bash
+    eksctl delete cluster --name sample
+    ```
+
+2. コンフィグファイルのパラメータ指定
+
+    ```bash
+    eksctl delete cluster -f eks-sample-cluster.yaml
     ```
 
 ## コンフィグ認証
