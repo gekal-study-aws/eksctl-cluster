@@ -29,7 +29,7 @@
     ```bash
     eksctl create cluster \
         --name sample \
-        --version 1.23 \
+        --version 1.30 \
         --fargate \
         --nodegroup-name sample \
         --managed \

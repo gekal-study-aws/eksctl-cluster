@@ -7,7 +7,7 @@ kind: ClusterConfig
 metadata:
   name: sample
   region: ap-northeast-1
-  version: "1.23"
+  version: "1.30"
 
 nodeGroups:
   - name: ng-1
