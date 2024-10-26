@@ -22,98 +22,29 @@
 | eksctl utils        | Various utils                                            |
 | eksctl version      | Output the version of eksctl                             |
 
-## クラスタ作成
+## クラスタ管理コマンド
 
-1. コマンドライン
+1. コマンドで直接作成
 
-    ```bash
+    ```shell
     eksctl create cluster \
         --name sample \
         --version 1.30 \
-        --fargate \
-        --nodegroup-name sample \
-        --managed \
-        --enable-ssm \
-        --full-ecr-access \
-        --alb-ingress-access
+        --region ap-northeast-1 \
+        --dry-run
     # eksctl delete cluster --name sample
     ```
 
-2. コンフィグファイル
+2. コンフィグから作成
 
     ```bash
-    eksctl create cluster -f eks-sample-cluster.yaml
-    # eksctl delete cluster -f eks-sample-cluster.yaml
+    eksctl create cluster -f config.yaml
+    # eksctl delete cluster -f config.yaml
     ```
-
-## クラスタ削除
-
-1. コマンドラインのパラメータ指定
-
-    ```bash
-    eksctl delete cluster --name sample
-    ```
-
-2. コンフィグファイルのパラメータ指定
-
-    ```bash
-    eksctl delete cluster -f eks-sample-cluster.yaml
-    ```
-
-## EKSクラスタへの認証情報追加
-
-### ロールの権限追加
-
-1. テストロールの作成
-
-    ```bash
-    testRoleArn=$(aws iam create-role --role-name test-role --assume-role-policy-document file://test-role-trust-policy.json | jq -cr '.Role.Arn')
-    # aws iam delete-role --role-name test-role
-    ```
-
-2. ロールのEKS権限の付与
-
-    ```bash
-    eksctl create iamidentitymapping \
-        --cluster sample \
-        --region=ap-northeast-1 \
-        --arn ${testRoleArn} \
-        --group eks-console-dashboard-full-access-group \
-        --no-duplicate-arns
-    ```
-
-### ユーザーの権限追加
-
-1. テストユーザの作成
-
-    ```bash
-    testUserArn=$(aws iam create-user --user-name test-user | jq -cr .User.Arn)
-    # aws iam delete-user --user-name test-user
-    ```
-
-2. ユーザのEKS権限の付与
-
-    ```bash
-    eksctl create iamidentitymapping \
-        --cluster sample \
-        --region=ap-northeast-1 \
-        --arn ${testUserArn} \
-        --group eks-console-dashboard-restricted-access-group \
-        --no-duplicate-arns
-    ```
-
-### 権限の確認
-
-```bash
-eksctl get iamidentitymapping --cluster sample --region=ap-northeast-1
-```
-
-## コンフィグ認証
-
-> ~/.kube/config
 
 ## 参照
 
 1. [eksctl - The official CLI for Amazon EKS](https://github.com/weaveworks/eksctl)
 2. [Create a kubeconfig for Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html#create-kubeconfig-manually)
 3. [Kubernetes リソースを表示する](https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/view-kubernetes-resources.html#view-kubernetes-resources-permissions)
+4. [Image: eksctl/eksctl](https://gallery.ecr.aws/eksctl/eksctl)
